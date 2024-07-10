@@ -5,54 +5,44 @@ export interface IProduct {
 	title: string;
 	category: string;
 	price: number;
+	inBasket: boolean;
 }
 
 export interface IOrder {
-	payment: TPaymentMethod;
+	items: string[];
+	payment: string;
 	address: string;
 	email: string;
 	phone: string;
-}
-
-export interface IBasket {
-	items: string[];
 	total: number;
-	addItem(item: IProduct): void;
-	removeItem(itemId: string): void;
-	getItems(): IProduct[];
 }
 
 export interface ICatalog {
-	_items: IProduct[];
 	setItems(items: IProduct[]): void;
 	getItems(): IProduct[];
+	addToCart(id: string): void;
+	deleteFromCart(id: string): void;
+	getSumInBasket(): number;
+	getItemsInBasket(): IProduct[];
+	getNumOfProductsInBasket(): number;
+	clearBasket(): void;
 }
 
-export interface IPage {
-	counter: number;
-	catalog: HTMLElement[];
-	locked: boolean;
+export interface IAppState {
+	preview: string | null;
+	loading: boolean;
 }
 
-export interface IFormState {
-	valid: boolean;
-	errors: string[];
-}
+export type FormErrors = Partial<Record<keyof IOrder, string>>;
 
-export interface IModalData {
-	content: HTMLElement;
+export type TOrderForm = Pick<
+	IOrder,
+	'payment' | 'address' | 'email' | 'phone'
+>;
+
+export interface IOrderResult {
+	total: number;
 }
 
 export type TOrderPayementInfo = Pick<IOrder, 'address' | 'payment'>;
 export type TOrderContactInfo = Pick<IOrder, 'email' | 'phone'>;
-export type TPaymentMethod = 'Онлайн' | 'При получении';
-
-export type TCardCatalog = Pick<
-	IProduct,
-	'category' | 'title' | 'image' | 'price'
->;
-export type TCardPreview = Pick<
-	IProduct,
-	'image' | 'category' | 'description' | 'price' | 'title'
->;
-export type TCardBasket = Pick<IProduct, 'title' | 'price'>;
