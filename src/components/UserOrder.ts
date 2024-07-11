@@ -58,4 +58,15 @@ export class UserOrder extends Model<IAppState> {
 		this.events.emit('orderFormErrors:change', this.formErrors);
 		return Object.keys(errors).length === 0;
 	}
+
+	clearOrder() {
+		this.order = {
+			email: '',
+			payment: '',
+			phone: '',
+			address: '',
+			items: [],
+			total: 0,
+		};
+	}
 }

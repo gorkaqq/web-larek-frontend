@@ -72,11 +72,12 @@ events.on('contacts:submit', () => {
 			const success = new Success(cloneTemplate(successTemplate), {
 				onClick: () => {
 					modal.close();
-					catalog.clearBasket();
-					page.render({
-						counter: 0,
-					});
 				},
+			});
+
+			catalog.clearBasket();
+			page.render({
+				counter: 0,
 			});
 
 			modal.render({
@@ -127,22 +128,16 @@ events.on('productInBusket:delete', (data: Card) => {
 
 // открыть корзину
 events.on('cart:open', () => {
-	const itemsInBasket = catalog
-		.getItems()
-		.filter((product) => product.inBasket === true)
-		.map((item, index) => {
-			const productInBasket = new Card(
-				cloneTemplate(cardBasketTemplate),
-				events
-			);
-			productInBasket.index = index + 1;
-			return productInBasket.render({
-				title: item.title,
-				image: item.image,
-				price: item.price,
-				id: item.id,
-			});
+	const itemsInBasket = catalog.getItemsInBasket().map((item, index) => {
+		const productInBasket = new Card(cloneTemplate(cardBasketTemplate), events);
+		productInBasket.index = index + 1;
+		return productInBasket.render({
+			title: item.title,
+			image: item.image,
+			price: item.price,
+			id: item.id,
 		});
+	});
 
 	modal.render({
 		content: basketView.render({
@@ -215,4 +210,5 @@ events.on('modal:open', () => {
 // ... и разблокируем
 events.on('modal:close', () => {
 	page.locked = false;
+	order.clearOrder();
 });

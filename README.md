@@ -174,6 +174,7 @@ export type TUserContactInfo = Pick<IUser, 'email' | 'phone'>;
 - setOrderField(field: keyof TOrderForm, value: string) - устанавливает значение полей форм в объект заказа.
 - validateContactsForm() - валидация формы с полями электронной почты и телефона.
 - validateOrderForm() - валидация формы с полями адреса и способа оплаты.
+- clearOrder() - очистка данных заказа.
 
 ### Классы представления
 

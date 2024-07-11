@@ -52,8 +52,11 @@ export class Card extends Component<IProduct> {
 	}
 
 	set price(price: number | null) {
-		price = price ?? 0;
-		this.setText(this._price, `${price} синапсов`);
+		this.setText(this._price, price ? `${price} синапсов` : 'Не продается');
+
+		if (this._button && !price) {
+			this._button.disabled = true;
+		}
 	}
 
 	set image(link: string) {
